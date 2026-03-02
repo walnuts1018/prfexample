@@ -5,7 +5,7 @@ import (
 	"embed"
 	"fmt"
 
-	"github.com/gocql/gocql"
+	"github.com/scylladb/gocql "
 	"github.com/scylladb/gocqlx/v3"
 	"github.com/scylladb/gocqlx/v3/migrate"
 	"github.com/walnuts1018/PRFExample/server/config"

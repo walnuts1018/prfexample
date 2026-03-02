@@ -8,7 +8,7 @@ import (
 	"github.com/Code-Hex/synchro"
 	"github.com/Code-Hex/synchro/tz"
 	"github.com/go-webauthn/webauthn/webauthn"
-	"github.com/gocql/gocql"
+	"github.com/scylladb/gocql "
 	"github.com/walnuts1018/PRFExample/server/domain/entity"
 )
 

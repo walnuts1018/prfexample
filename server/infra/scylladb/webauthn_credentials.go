@@ -7,7 +7,7 @@ import (
 	"iter"
 
 	"github.com/go-webauthn/webauthn/webauthn"
-	"github.com/gocql/gocql"
+	"github.com/scylladb/gocql "
 	"github.com/scylladb/gocqlx/v3/qb"
 	"github.com/walnuts1018/PRFExample/server/domain/entity"
 )
