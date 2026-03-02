@@ -167,7 +167,7 @@ func (u *Usecase) FinishWebAuthnLogin(ctx context.Context, userID entity.UserID,
 		return entity.User{}, entity.WebAuthnCredential{}, errors.New("authenticator clone warning")
 	}
 
-	if err := u.webAuthnCredentialRepository.UpdateWebAuthnCredentialOnLogin(ctx, cred.ID, cred); err != nil {
+	if err := u.webAuthnCredentialRepository.UpdateWebAuthnCredentialOnLogin(ctx, cred.ID, user.ID, cred); err != nil {
 		return entity.User{}, entity.WebAuthnCredential{}, fmt.Errorf("failed to update WebAuthn credential on login: %w", err)
 	}
 

@@ -32,7 +32,7 @@ type WebAuthnCredentialRepository interface {
 	StoreWebAuthnCredential(ctx context.Context, webAuthnCredential entity.WebAuthnCredential) error
 	ListWebAuthnCredentialsByUserID(ctx context.Context, userID entity.UserID) (iter.Seq[entity.WebAuthnCredential], error)
 	GetWebAuthnCredential(ctx context.Context, id entity.WebAuthnCredentialID) (entity.WebAuthnCredential, error)
-	UpdateWebAuthnCredentialOnLogin(ctx context.Context, id entity.WebAuthnCredentialID, cred *webauthn.Credential) error
+	UpdateWebAuthnCredentialOnLogin(ctx context.Context, id entity.WebAuthnCredentialID, userID entity.UserID, cred *webauthn.Credential) error
 	DeleteWebAuthnCredential(ctx context.Context, userID entity.UserID, id entity.WebAuthnCredentialID) error
 }
 
