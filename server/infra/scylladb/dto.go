@@ -14,7 +14,7 @@ import (
 
 type User struct {
 	Id          gocql.UUID
-	PrfSalt     string
+	PrfSalt     string `db:"prf_salt"`
 	IsTemporary bool
 }
 
