@@ -1,7 +1,7 @@
 package config
 
 type ScyllaDB struct {
-	Host     string `env:"Host" envDefault:"localhost"`
+	Host     string `env:"HOST" envDefault:"localhost"`
 	Port     int    `env:"PORT" envDefault:"9042"`
 	Keyspace string `env:"KEYSPACE" envDefault:"prfexample"`
 

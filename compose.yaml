@@ -11,7 +11,8 @@ services:
       SERVER_PORT: 8080
       SERVER_ORIGIN: https://prfexample.walnuts.dev
       SERVER_ADDITIONAL_ORIGINS: ""
-      SCYLLA_ENDPOINT: scylladb:9042
+      SCYLLA_HOST: scylladb
+      SCYLLA_PORT: 9042
       SCYLLA_KEYSPACE: prfexample
     depends_on:
       - scylladb-create-keyspace
