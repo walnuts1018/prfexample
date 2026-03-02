@@ -1,7 +1,8 @@
 package config
 
 type ScyllaDB struct {
-	Endpoint string `env:"ENDPOINT" envDefault:"localhost:9042"`
+	Host     string `env:"Host" envDefault:"localhost"`
+	Port     int    `env:"PORT" envDefault:"9042"`
 	Keyspace string `env:"KEYSPACE" envDefault:"prfexample"`
 
 	CACertPath     string `env:"CA_CERT_PATH"`

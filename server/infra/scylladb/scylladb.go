@@ -23,7 +23,8 @@ var _ usecase.EncryptedDataRepository = (*ScyllaDB)(nil)
 var _ usecase.SessionRepository = (*ScyllaDB)(nil)
 
 func NewScyllaDB(cfg config.ScyllaDB) (*ScyllaDB, error) {
-	cluster := gocql.NewCluster(cfg.Endpoint)
+	cluster := gocql.NewCluster(cfg.Host)
+	cluster.Port = cfg.Port
 	cluster.Keyspace = cfg.Keyspace
 
 	if cfg.User != "" && cfg.Password != "" {
