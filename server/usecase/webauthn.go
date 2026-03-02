@@ -19,6 +19,19 @@ func (u *Usecase) BeginWebAuthnRegistration(ctx context.Context) (userID entity.
 		return entity.UserID{}, nil, nil, fmt.Errorf("failed to create user: %w", err)
 	}
 
+	existingCredentials, err := u.webAuthnCredentialRepository.ListWebAuthnCredentialsByUserID(ctx, user.ID)
+	if err != nil {
+		return entity.UserID{}, nil, nil, fmt.Errorf("failed to list WebAuthn credentials: %w", err)
+	}
+
+	var credentialExcludeList []protocol.CredentialDescriptor
+	for cred := range existingCredentials {
+		credentialExcludeList = append(credentialExcludeList, protocol.CredentialDescriptor{
+			Type:         protocol.PublicKeyCredentialType,
+			CredentialID: []byte(cred.ID),
+		})
+	}
+
 	options := []webauthn.RegistrationOption{
 		webauthn.WithResidentKeyRequirement(protocol.ResidentKeyRequirementPreferred),
 		webauthn.WithAuthenticatorSelection(protocol.AuthenticatorSelection{
@@ -38,21 +51,8 @@ func (u *Usecase) BeginWebAuthnRegistration(ctx context.Context) (userID entity.
 				},
 			},
 		),
+		webauthn.WithExclusions(credentialExcludeList),
 	}
-
-	existingCredentials, err := u.webAuthnCredentialRepository.ListWebAuthnCredentialsByUserID(ctx, user.ID)
-	if err != nil {
-		return entity.UserID{}, nil, nil, fmt.Errorf("failed to list WebAuthn credentials: %w", err)
-	}
-
-	var credentialExcludeList []protocol.CredentialDescriptor
-	for cred := range existingCredentials {
-		credentialExcludeList = append(credentialExcludeList, protocol.CredentialDescriptor{
-			Type:         protocol.PublicKeyCredentialType,
-			CredentialID: []byte(cred.ID),
-		})
-	}
-	options = append(options, webauthn.WithExclusions(credentialExcludeList))
 
 	webauthnUser := &entity.WebAuthnUser{
 		User:        user,
