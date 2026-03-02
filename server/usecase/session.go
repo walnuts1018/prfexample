@@ -5,6 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"io"
 	"time"
 
 	"github.com/Code-Hex/synchro"
@@ -89,16 +90,16 @@ func (u *Usecase) GetUserIDInRegistrationSession(ctx context.Context, sessionID 
 		return entity.UserID{}, fmt.Errorf("failed to get session: %w", err)
 	}
 
-	var userID entity.UserID
-	if err := json.NewDecoder(r).Decode(&userID); err != nil {
-		return entity.UserID{}, fmt.Errorf("failed to unmarshal session: %w", err)
+	buf, err := io.ReadAll(r)
+	if err != nil {
+		return entity.UserID{}, fmt.Errorf("failed to read session: %w", err)
 	}
 
 	if err := u.sessionRepository.DeleteSession(ctx, sessionID, UserIDInRegistrationSessionKey); err != nil {
 		return entity.UserID{}, fmt.Errorf("failed to delete session: %w", err)
 	}
 
-	return userID, nil
+	return entity.UserID(buf), nil
 }
 
 func (u *Usecase) SaveUserIDInVerificationSession(ctx context.Context, sessionID model.SessionID, userID entity.UserID) error {
@@ -114,16 +115,16 @@ func (u *Usecase) GetUserIDInVerificationSession(ctx context.Context, sessionID 
 		return entity.UserID{}, fmt.Errorf("failed to get session: %w", err)
 	}
 
-	var userID entity.UserID
-	if err := json.NewDecoder(r).Decode(&userID); err != nil {
-		return entity.UserID{}, fmt.Errorf("failed to unmarshal session: %w", err)
+	buf, err := io.ReadAll(r)
+	if err != nil {
+		return entity.UserID{}, fmt.Errorf("failed to read session: %w", err)
 	}
 
 	if err := u.sessionRepository.DeleteSession(ctx, sessionID, UserIDInVerificationSessionKey); err != nil {
 		return entity.UserID{}, fmt.Errorf("failed to delete session: %w", err)
 	}
 
-	return userID, nil
+	return entity.UserID(buf), nil
 }
 
 func (u *Usecase) SaveLoginUserIDSession(ctx context.Context, sessionID model.SessionID, userID entity.UserID) error {
@@ -140,12 +141,12 @@ func (u *Usecase) GetLoginUserIDSession(ctx context.Context, sessionID model.Ses
 		return entity.UserID{}, fmt.Errorf("failed to get session: %w", err)
 	}
 
-	var userID entity.UserID
-	if err := json.NewDecoder(r).Decode(&userID); err != nil {
-		return entity.UserID{}, fmt.Errorf("failed to unmarshal session: %w", err)
+	buf, err := io.ReadAll(r)
+	if err != nil {
+		return entity.UserID{}, fmt.Errorf("failed to read session: %w", err)
 	}
 
-	return userID, nil
+	return entity.UserID(buf), nil
 }
 
 func (u *Usecase) DeleteLoginUserIDSession(ctx context.Context, sessionID model.SessionID) error {
