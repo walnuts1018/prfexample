@@ -19,11 +19,13 @@ func (h *Handler) GetWebAuthnCredentialAssertion(c *echo.Context) error {
 	}
 
 	if err := c.Bind(&params); err != nil {
+		slog.WarnContext(ctx, "failed to bind query parameters", slog.Any("error", err))
 		return c.JSON(400, map[string]string{"error": "invalid request"})
 	}
 
 	userID, err := entity.ParseUserID(params.UserID)
 	if err != nil {
+		slog.WarnContext(ctx, "failed to parse user ID", slog.Any("error", err))
 		return c.JSON(400, map[string]string{"error": "invalid user ID"})
 	}
 
