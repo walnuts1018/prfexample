@@ -4,7 +4,7 @@ import "github.com/scylladb/gocqlx/v3/table"
 
 var usersMeta = table.Metadata{
 	Name:    "users",
-	Columns: []string{"id", "prf_salt", "is_temporary"},
+	Columns: []string{"id", "prfsalt", "is_temporary"},
 	PartKey: []string{"id"},
 }
 var usersTable = table.New(usersMeta)
