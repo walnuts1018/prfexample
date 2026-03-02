@@ -68,7 +68,7 @@ func (u *Usecase) BeginWebAuthnRegistration(ctx context.Context) (userID entity.
 }
 
 func (u *Usecase) FinishWebAuthnRegistration(ctx context.Context, userID entity.UserID, creationData *protocol.ParsedCredentialCreationData, session *webauthn.SessionData) (entity.User, entity.WebAuthnCredential, error) {
-	user, err := u.getUser(ctx, userID)
+	user, err := u.getUser(ctx, userID, true)
 	if err != nil {
 		return entity.User{}, entity.WebAuthnCredential{}, fmt.Errorf("failed to get user: %w", err)
 	}

@@ -29,12 +29,12 @@ func (u *Usecase) createTemporaryUser(ctx context.Context) (entity.User, error) 
 	return user, nil
 }
 
-func (u *Usecase) getUser(ctx context.Context, id entity.UserID) (entity.User, error) {
+func (u *Usecase) getUser(ctx context.Context, id entity.UserID, allowTemporary ...bool) (entity.User, error) {
 	user, err := u.userRepository.GetUserByID(ctx, id)
 	if err != nil {
 		return entity.User{}, fmt.Errorf("failed to get user by ID: %w", err)
 	}
-	if user.IsTemporary {
+	if user.IsTemporary && (len(allowTemporary) == 0 || !allowTemporary[0]) {
 		return entity.User{}, fmt.Errorf("user is temporary")
 	}
 
