@@ -2,13 +2,13 @@ package scylladb
 
 import (
 	"context"
-	"embed"
 	"fmt"
 
 	"github.com/gocql/gocql"
 	"github.com/scylladb/gocqlx/v3"
 	"github.com/scylladb/gocqlx/v3/migrate"
 	"github.com/walnuts1018/PRFExample/server/config"
+	migratefs "github.com/walnuts1018/PRFExample/server/infra/scylladb/migrate"
 	"github.com/walnuts1018/PRFExample/server/usecase"
 )
 
@@ -51,11 +51,8 @@ func (db *ScyllaDB) Close() {
 	db.sess.Close()
 }
 
-//go:embed migrate/*.cql
-var migrateFS embed.FS
-
 func (db *ScyllaDB) Migrate(ctx context.Context) error {
-	if err := migrate.FromFS(ctx, db.sess, migrateFS); err != nil {
+	if err := migrate.FromFS(ctx, db.sess, migratefs.Scripts); err != nil {
 		return fmt.Errorf("failed to migrate ScyllaDB: %w", err)
 	}
 	return nil
