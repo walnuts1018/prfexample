@@ -45,9 +45,9 @@ func (db *ScyllaDB) ListWebAuthnCredentialsByUserID(ctx context.Context, userID 
 	}, nil
 }
 
-func (db *ScyllaDB) GetWebAuthnCredential(ctx context.Context, id entity.WebAuthnCredentialID) (entity.WebAuthnCredential, error) {
+func (db *ScyllaDB) GetWebAuthnCredential(ctx context.Context, id entity.WebAuthnCredentialID, userID entity.UserID) (entity.WebAuthnCredential, error) {
 	var webAuthnCredential WebAuthnCredential
-	q := db.sess.Query(webAuthnCredentialsTable.Select()).BindMap(qb.M{"id": WebAuthnCredentialIDFromEntity(id)})
+	q := db.sess.Query(webAuthnCredentialsTable.Select()).BindMap(qb.M{"id": WebAuthnCredentialIDFromEntity(id), "user_id": gocql.UUID(userID)})
 	if err := q.GetRelease(&webAuthnCredential); err != nil {
 		return entity.WebAuthnCredential{}, fmt.Errorf("failed to get WebAuthnCredential by ID: %w", err)
 	}

@@ -171,7 +171,7 @@ func (u *Usecase) FinishWebAuthnLogin(ctx context.Context, userID entity.UserID,
 		return entity.User{}, entity.WebAuthnCredential{}, fmt.Errorf("failed to update WebAuthn credential on login: %w", err)
 	}
 
-	wc, err := u.webAuthnCredentialRepository.GetWebAuthnCredential(ctx, cred.ID)
+	wc, err := u.webAuthnCredentialRepository.GetWebAuthnCredential(ctx, cred.ID, user.ID)
 	if err != nil {
 		return entity.User{}, entity.WebAuthnCredential{}, fmt.Errorf("failed to get webauthn credential: %w", err)
 	}
@@ -181,7 +181,7 @@ func (u *Usecase) FinishWebAuthnLogin(ctx context.Context, userID entity.UserID,
 }
 
 func (u *Usecase) GetWebAuthnCredential(ctx context.Context, user entity.User, id entity.WebAuthnCredentialID) (entity.WebAuthnCredential, error) {
-	credential, err := u.webAuthnCredentialRepository.GetWebAuthnCredential(ctx, id)
+	credential, err := u.webAuthnCredentialRepository.GetWebAuthnCredential(ctx, id, user.ID)
 	if err != nil {
 		return entity.WebAuthnCredential{}, fmt.Errorf("failed to get WebAuthn credential: %w", err)
 	}
