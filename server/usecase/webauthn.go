@@ -118,9 +118,20 @@ func (u *Usecase) BeginWebAuthnLogin(ctx context.Context, userID entity.UserID) 
 		),
 	}
 
+	credentials, err := u.webAuthnCredentialRepository.ListWebAuthnCredentialsByUserID(ctx, user.ID)
+	if err != nil {
+		return nil, nil, fmt.Errorf("failed to list WebAuthn credentials: %w", err)
+	}
+
 	assertion, session, err := u.webAuthn.BeginLogin(&entity.WebAuthnUser{
-		User:        user,
-		Credentials: []webauthn.Credential{},
+		User: user,
+		Credentials: slices.Collect(func(yield func(webauthn.Credential) bool) {
+			for cred := range credentials {
+				if !yield(*cred.Credential) {
+					return
+				}
+			}
+		}),
 	}, options...)
 	if err != nil {
 		return nil, nil, fmt.Errorf("failed to begin WebAuthn login: %w", err)
