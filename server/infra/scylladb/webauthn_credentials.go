@@ -2,6 +2,7 @@ package scylladb
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"iter"
 
@@ -53,12 +54,17 @@ func (db *ScyllaDB) GetWebAuthnCredential(ctx context.Context, id entity.WebAuth
 	return webAuthnCredential.ToEntity()
 }
 
-func (db *ScyllaDB) UpdateWebAuthnCredentialOnLogin(ctx context.Context, id entity.WebAuthnCredentialID, cred *webauthn.Credential) error {
+func (db *ScyllaDB) UpdateWebAuthnCredentialOnLogin(ctx context.Context, id entity.WebAuthnCredentialID, userID entity.UserID, cred *webauthn.Credential) error {
+	encoded, err := json.Marshal(cred)
+	if err != nil {
+		return fmt.Errorf("failed to encode WebAuthnCredential on login: %w", err)
+	}
+
 	q := qb.Update(webAuthnCredentialsTable.Name()).
 		Set("credential").
-		Where(qb.Eq("id")).
+		Where(qb.Eq("id"), qb.Eq("user_id")).
 		QueryContext(ctx, db.sess).
-		BindMap(qb.M{"id": WebAuthnCredentialIDFromEntity(id), "credential": cred})
+		BindMap(qb.M{"id": WebAuthnCredentialIDFromEntity(id), "user_id": userID, "credential": encoded})
 	if err := q.ExecRelease(); err != nil {
 		return fmt.Errorf("failed to update WebAuthnCredential on login: %w", err)
 	}
