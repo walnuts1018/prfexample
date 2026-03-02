@@ -13,9 +13,8 @@ type Config struct {
 	LogLevel slog.Level `env:"LOG_LEVEL"`
 	LogType  LogType    `env:"LOG_TYPE" envDefault:"json"`
 
-	Server         Server         `envPrefix:"SERVER_"`
-	UserHandleSalt UserHandleSalt `env:"USER_HANDLE_SALT,required"`
-	ScyllaDB 	 ScyllaDB        `envPrefix:"SCYLLADB_"`
+	Server   Server   `envPrefix:"SERVER_"`
+	ScyllaDB ScyllaDB `envPrefix:"SCYLLA_"`
 }
 
 func Load() (Config, error) {

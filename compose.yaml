@@ -1,0 +1,39 @@
+services:
+  server:
+    build:
+      context: ./server
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    environment:
+      LOG_LEVEL: debug
+      LOG_TYPE: text
+      SERVER_PORT: 8080
+      SERVER_ORIGIN: https://prfexample.walnuts.dev
+      SERVER_ADDITIONAL_ORIGINS: ""
+      SCYLLA_ENDPOINT: scylladb:9042
+      SCYLLA_KEYSPACE: prfexample
+    depends_on:
+      - scylladb-create-keyspace
+  scylladb:
+    image: scylladb/scylla:2025.4.3
+    command: "--smp 1 --memory 256M"
+    ports:
+      - "9042:9042"
+    volumes:
+      - scylla_data:/var/lib/scylla
+
+  scylladb-create-keyspace:
+    image: scylladb/scylla:2025.4.3
+    volumes:
+      - ./scylla/initdb.sh:/scylla_scripts/initdb.sh
+    entrypoint: [ "bash", "/scylla_scripts/initdb.sh" ]
+    environment:
+      ENDPOINT: scylladb
+      USER_NAME: cassandra
+      PASSWORD: cassandra
+    depends_on:
+      - scylladb
+
+volumes:
+  scylla_data:
