@@ -1,11 +1,11 @@
-CREATE TABLE users (
+CREATE TABLE IF NOT EXISTS users (
    id UUID,
    prfsalt TEXT,
    is_temporary BOOLEAN,
    PRIMARY KEY (id)
 );
 
-CREATE TABLE webauthn_credentials (
+CREATE TABLE IF NOT EXISTS webauthn_credentials (
    id TEXT,
    user_id UUID,
    credential BLOB,
@@ -13,7 +13,7 @@ CREATE TABLE webauthn_credentials (
    PRIMARY KEY (user_id, id)
 ) WITH CLUSTERING ORDER BY (id ASC);
 
-CREATE TABLE encrypted_data (
+CREATE TABLE IF NOT EXISTS encrypted_data (
    id UUID,
    user_id UUID,
    data BLOB,
@@ -23,7 +23,7 @@ CREATE TABLE encrypted_data (
 ) WITH CLUSTERING ORDER BY (user_id ASC);
 
 
-CREATE TABLE sessions (
+CREATE TABLE IF NOT EXISTS sessions (
    session_id TEXT,
    key TEXT,
    data BLOB,

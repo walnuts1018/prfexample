@@ -20,8 +20,8 @@ var webAuthnCredentialsTable = table.New(webAuthnCredentialsMeta)
 var encryptedDataMeta = table.Metadata{
 	Name:    "encrypted_data",
 	Columns: []string{"id", "user_id", "data", "iv", "updated_at"},
-	PartKey: []string{"id"},
-	SortKey: []string{"user_id"},
+	PartKey: []string{"user_id"},
+	SortKey: []string{"id"},
 }
 var encryptedDataTable = table.New(encryptedDataMeta)
 
