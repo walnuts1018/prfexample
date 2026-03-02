@@ -3,6 +3,7 @@ package scylladb
 import (
 	"context"
 	"fmt"
+	"os"
 
 	"github.com/gocql/gocql"
 	"github.com/scylladb/gocqlx/v3"
@@ -24,11 +25,23 @@ var _ usecase.SessionRepository = (*ScyllaDB)(nil)
 func NewScyllaDB(cfg config.ScyllaDB) (*ScyllaDB, error) {
 	cluster := gocql.NewCluster(cfg.Endpoint)
 	cluster.Keyspace = cfg.Keyspace
-	cluster.Authenticator = gocql.PasswordAuthenticator{
-		Username: cfg.User,
-		Password: cfg.Password,
+
+	if cfg.User != "" && cfg.Password != "" {
+		cluster.Authenticator = gocql.PasswordAuthenticator{
+			Username: cfg.User,
+			Password: cfg.Password,
+		}
 	}
+
 	if cfg.CACertPath != "" || cfg.ClientCertPath != "" || cfg.ClientKeyPath != "" {
+		for _, path := range []string{cfg.CACertPath, cfg.ClientCertPath, cfg.ClientKeyPath} {
+			if path != "" {
+				if _, err := os.Stat(path); err != nil {
+					return nil, fmt.Errorf("failed to access certificate file %s: %w", path, err)
+				}
+			}
+		}
+
 		cluster.SslOpts = &gocql.SslOptions{
 			CaPath:                 cfg.CACertPath,
 			CertPath:               cfg.ClientCertPath,
