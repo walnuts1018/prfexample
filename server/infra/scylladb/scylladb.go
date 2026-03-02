@@ -24,6 +24,18 @@ var _ usecase.SessionRepository = (*ScyllaDB)(nil)
 func NewScyllaDB(cfg config.ScyllaDB) (*ScyllaDB, error) {
 	cluster := gocql.NewCluster(cfg.Endpoint)
 	cluster.Keyspace = cfg.Keyspace
+	cluster.Authenticator = gocql.PasswordAuthenticator{
+		Username: cfg.User,
+		Password: cfg.Password,
+	}
+	if cfg.CACertPath != "" && cfg.ClientCertPath != "" && cfg.ClientKeyPath != "" {
+		cluster.SslOpts = &gocql.SslOptions{
+			CaPath:                 cfg.CACertPath,
+			CertPath:               cfg.ClientCertPath,
+			KeyPath:                cfg.ClientKeyPath,
+			EnableHostVerification: false, // TODO: Enable host verification in production
+		}
+	}
 
 	session, err := gocqlx.WrapSession(cluster.CreateSession())
 	if err != nil {
