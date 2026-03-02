@@ -2,7 +2,6 @@ package scylladb
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"iter"
 
@@ -54,8 +53,16 @@ func (db *ScyllaDB) GetWebAuthnCredential(ctx context.Context, id entity.WebAuth
 	return webAuthnCredential.ToEntity()
 }
 
-func (db *ScyllaDB) UpdateWebAuthnCredentialOnLogin(ctx context.Context, id entity.WebAuthnCredentialID, cred *webauthn.Credential) (entity.WebAuthnCredential, error) {
-	return entity.WebAuthnCredential{}, errors.New("not implemented")
+func (db *ScyllaDB) UpdateWebAuthnCredentialOnLogin(ctx context.Context, id entity.WebAuthnCredentialID, cred *webauthn.Credential) error {
+	q := qb.Update(webAuthnCredentialsTable.Name()).
+		Set("credential").
+		Where(qb.Eq("id")).
+		QueryContext(ctx, db.sess).
+		BindMap(qb.M{"id": WebAuthnCredentialIDFromEntity(id), "credential": cred})
+	if err := q.ExecRelease(); err != nil {
+		return fmt.Errorf("failed to update WebAuthnCredential on login: %w", err)
+	}
+	return nil
 }
 
 func (db *ScyllaDB) DeleteWebAuthnCredential(ctx context.Context, userID entity.UserID, id entity.WebAuthnCredentialID) error {

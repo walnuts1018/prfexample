@@ -34,5 +34,9 @@ func (u *Usecase) getUser(ctx context.Context, id entity.UserID) (entity.User, e
 	if err != nil {
 		return entity.User{}, fmt.Errorf("failed to get user by ID: %w", err)
 	}
+	if user.IsTemporary {
+		return entity.User{}, fmt.Errorf("user is temporary")
+	}
+
 	return user, nil
 }
