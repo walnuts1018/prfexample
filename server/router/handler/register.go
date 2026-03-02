@@ -68,12 +68,12 @@ func (h *Handler) CreateWebAuthnCredential(c *echo.Context) error {
 	}
 
 	type response struct {
-		UserID     string                    `json:"user_id"`
+		UserID     entity.UserID             `json:"user_id"`
 		Credential entity.WebAuthnCredential `json:"credential"`
 	}
 
 	return c.JSON(200, response{
-		UserID:     user.ID.String(),
+		UserID:     user.ID,
 		Credential: wc,
 	})
 }

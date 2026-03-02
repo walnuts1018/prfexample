@@ -29,6 +29,20 @@ func (id UserID) String() string {
 	return uuid.UUID(id).String()
 }
 
+func (id UserID) MarshalText() ([]byte, error) {
+	return []byte(uuid.UUID(id).String()), nil
+}
+
+func (id *UserID) UnmarshalText(data []byte) error {
+	u, err := uuid.Parse(string(data))
+	if err != nil {
+		return err
+	}
+	*id = UserID(u)
+
+	return nil
+}
+
 type User struct {
 	ID          UserID
 	PRFSalt     PRFSalt

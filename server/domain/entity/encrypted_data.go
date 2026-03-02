@@ -14,6 +14,19 @@ func (id EncryptedDataID) String() string {
 	return uuid.UUID(id).String()
 }
 
+func (id EncryptedDataID) MarshalText() ([]byte, error) {
+	return []byte(uuid.UUID(id).String()), nil
+}
+
+func (id *EncryptedDataID) UnmarshalText(data []byte) error {
+	u, err := uuid.Parse(string(data))
+	if err != nil {
+		return err
+	}
+	*id = EncryptedDataID(u)
+	return nil
+}
+
 func ParseEncryptedDataID(s string) (EncryptedDataID, error) {
 	id, err := uuid.Parse(s)
 	if err != nil {
