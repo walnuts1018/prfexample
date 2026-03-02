@@ -17,6 +17,7 @@ func NewRouter(cfg config.Server, handler handler.Handler) http.Handler {
 	e.GET("/livez", handler.Liveness)
 
 	apiv1 := e.Group("/api").Group("/v1")
+	apiv1.Use(handler.SessionMiddleware)
 	{
 		webauthn := apiv1.Group("/webauthn")
 		// webauthn.GET("", handler.GetWebAuthnCredentials)
