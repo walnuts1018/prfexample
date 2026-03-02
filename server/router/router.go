@@ -13,6 +13,9 @@ func NewRouter(cfg config.Server, handler handler.Handler) http.Handler {
 	e := echo.New()
 	e.Use(echootel.NewMiddleware(cfg.Origin.Hostname()))
 
+	e.GET("/readyz", handler.Readiness)
+	e.GET("/livez", handler.Liveness)
+
 	apiv1 := e.Group("/api").Group("/v1")
 	{
 		webauthn := apiv1.Group("/webauthn")
