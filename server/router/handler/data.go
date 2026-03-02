@@ -36,6 +36,7 @@ func (h Handler) GetEncryptedData(c *echo.Context) error {
 		ID string `path:"id"`
 	}
 	if err := c.Bind(&params); err != nil {
+		slog.WarnContext(ctx, "invalid request to get encrypted data", "error", err)
 		return c.JSON(400, map[string]string{"error": "invalid request"})
 	}
 
@@ -75,6 +76,7 @@ func (h Handler) SaveEncryptedData(c *echo.Context) error {
 		IV   []byte `json:"iv"`
 	}
 	if err := c.Bind(&params); err != nil {
+		slog.WarnContext(ctx, "invalid request to save encrypted data", "error", err)
 		return c.JSON(400, map[string]string{"error": "invalid request"})
 	}
 
