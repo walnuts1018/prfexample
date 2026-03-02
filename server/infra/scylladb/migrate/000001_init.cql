@@ -19,9 +19,8 @@ CREATE TABLE IF NOT EXISTS encrypted_data (
    data BLOB,
    iv BLOB,
    updated_at TIMESTAMP,
-   PRIMARY KEY (id, user_id)
-) WITH CLUSTERING ORDER BY (user_id ASC);
-
+   PRIMARY KEY (user_id, id)
+) WITH CLUSTERING ORDER BY (id ASC);
 
 CREATE TABLE IF NOT EXISTS sessions (
    session_id TEXT,
