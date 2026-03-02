@@ -16,6 +16,9 @@ func NewRouter(cfg config.Server, handler handler.Handler) http.Handler {
 	e.GET("/readyz", handler.Readiness)
 	e.GET("/livez", handler.Liveness)
 
+	wellknown := e.Group("/.well-known")
+	wellknown.GET("/assetlinks.json", handler.AssertLinks)
+
 	apiv1 := e.Group("/api").Group("/v1")
 	apiv1.Use(handler.SessionMiddleware)
 	{
