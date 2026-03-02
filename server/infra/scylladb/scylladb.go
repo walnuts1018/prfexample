@@ -28,7 +28,7 @@ func NewScyllaDB(cfg config.ScyllaDB) (*ScyllaDB, error) {
 		Username: cfg.User,
 		Password: cfg.Password,
 	}
-	if cfg.CACertPath != "" && cfg.ClientCertPath != "" && cfg.ClientKeyPath != "" {
+	if cfg.CACertPath != "" || cfg.ClientCertPath != "" || cfg.ClientKeyPath != "" {
 		cluster.SslOpts = &gocql.SslOptions{
 			CaPath:                 cfg.CACertPath,
 			CertPath:               cfg.ClientCertPath,
