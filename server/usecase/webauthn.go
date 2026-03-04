@@ -9,7 +9,6 @@ import (
 	"github.com/go-webauthn/webauthn/protocol"
 	"github.com/go-webauthn/webauthn/webauthn"
 	"github.com/walnuts1018/PRFExample/server/domain/entity"
-	"k8s.io/utils/ptr"
 )
 
 func (u *Usecase) BeginWebAuthnRegistration(ctx context.Context) (userID entity.UserID, creation *protocol.CredentialCreation, session *webauthn.SessionData, err error) {
@@ -35,7 +34,7 @@ func (u *Usecase) BeginWebAuthnRegistration(ctx context.Context) (userID entity.
 	options := []webauthn.RegistrationOption{
 		webauthn.WithResidentKeyRequirement(protocol.ResidentKeyRequirementPreferred),
 		webauthn.WithAuthenticatorSelection(protocol.AuthenticatorSelection{
-			RequireResidentKey: ptr.To(false),
+			RequireResidentKey: new(false),
 			ResidentKey:        protocol.ResidentKeyRequirementPreferred,
 			// UserVerificationの有無でPRFの出力が変わるらしい
 			// https://fidoalliance.org/specs/fido-v2.2-rd-20230321/fido-client-to-authenticator-protocol-v2.2-rd-20230321.html#sctn-hmac-secret-extension:~:text=If%20uv%20bit%20is%20set%20to%201%20in%20the%20response,%20let%20CredRandom%20be%20CredRandomWithUV.

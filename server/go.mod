@@ -30,7 +30,6 @@ require (
 	go.opentelemetry.io/otel/exporters/otlp/otlptrace/otlptracegrpc v1.40.0
 	go.opentelemetry.io/otel/sdk v1.40.0
 	go.opentelemetry.io/otel/trace v1.40.0
-	k8s.io/utils v0.0.0-20260210185600-b8788abfbbc2
 )
 
 require (
