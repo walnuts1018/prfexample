@@ -40,10 +40,12 @@ class SettingsViewModel(
     fun deletePasskey() {
         viewModelScope.launch {
             _uiState.update { it.copy(isDeleting = true) }
-
-            repository.deleteAll()
-
-            _uiState.value = SettingsUiState()
+            try {
+                repository.deleteAll()
+                _uiState.value = SettingsUiState()
+            } catch (e: Exception) {
+                _uiState.update { it.copy(isDeleting = false) }
+            }
         }
     }
 
