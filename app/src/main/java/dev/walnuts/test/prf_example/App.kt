@@ -61,9 +61,7 @@ sealed interface TopLevelRoute : NavKey {
         override val icon = Icons.Filled.Settings
     }
 }
-
-val topLevelRoutes = listOf(TopLevelRoute.Encrypt, TopLevelRoute.Decrypt, TopLevelRoute.Settings)
-
+private val topLevelRoutes = listOf(TopLevelRoute.Encrypt, TopLevelRoute.Decrypt, TopLevelRoute.Settings)
 @Composable
 internal fun App(modifier: Modifier = Modifier) {
     val registerViewModel: RegisterViewModel = hiltViewModel()
