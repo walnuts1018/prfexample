@@ -57,7 +57,6 @@ class ApiClient(
         }
 
     var sessionId: String? = null
-        private set
 
     suspend fun getRegistrationCreation(): String {
         val response =
@@ -170,7 +169,8 @@ class ApiClient(
         }
     }
 
-    private fun parseEncryptedData(jsonStr: String): ServerEncryptedData = json.decodeFromString(jsonStr)
+    private fun parseEncryptedData(jsonStr: String): ServerEncryptedData =
+        json.decodeFromString(jsonStr)
 
     private fun parseEncryptedDataMap(jsonStr: String): List<ServerEncryptedData> {
         val map: Map<String, ServerEncryptedData> = json.decodeFromString(jsonStr)
