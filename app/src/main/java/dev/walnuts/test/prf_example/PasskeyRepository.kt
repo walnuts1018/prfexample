@@ -76,7 +76,7 @@ class PasskeyRepository(
     }
 
     private fun clearSavedUserId() {
-        prefs.edit { remove(KEY_LAST_USER_ID).apply() }
+        prefs.edit { remove(KEY_LAST_USER_ID) }
         Timber.d("Cleared saved user ID from storage")
     }
 
