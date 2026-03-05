@@ -76,7 +76,7 @@ class PasskeyRepository(
     }
 
     private fun clearSavedUserId() {
-        prefs.edit { remove(KEY_LAST_USER_ID).apply() }
+        prefs.edit { remove(KEY_LAST_USER_ID) }
         Timber.d("Cleared saved user ID from storage")
     }
 
@@ -142,7 +142,7 @@ class PasskeyRepository(
         if (prfFromRegistration != null) {
             _prfOutput.value = prfFromRegistration
             Timber.d(
-                "PRF key obtained from registration response (${prfFromRegistration.size} bytes): ${prfFromRegistration.toHexString()}",
+                "PRF key obtained from registration response (${prfFromRegistration.size} bytes)",
             )
         } else {
             Timber.w("PRF output not found in registration response")
