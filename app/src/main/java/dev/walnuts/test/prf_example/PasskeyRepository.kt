@@ -272,6 +272,7 @@ class PasskeyRepository
             _encryptedRecords.value = emptyList()
             _lastEncryptResult.value = null
             _registrationState.value = RegistrationState()
+            apiClient.sessionId = null
             Timber.d("Signed out: PRF key cleared from memory, saved User ID preserved")
         }
 
@@ -281,6 +282,7 @@ class PasskeyRepository
             _encryptedRecords.value = emptyList()
             _lastEncryptResult.value = null
             _registrationState.value = RegistrationState()
+            apiClient.sessionId = null
             clearSavedUserId()
         }
 
