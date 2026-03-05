@@ -77,7 +77,7 @@ fun SettingsScreen(
                     DetailCard(
                         label = stringResource(R.string.user_id),
                         value = it,
-                        isMonospace = true,
+                        useMonospace = true,
                     )
                 }
 
@@ -89,14 +89,14 @@ fun SettingsScreen(
                             false -> stringResource(R.string.prf_not_supported)
                             null -> stringResource(R.string.prf_unknown)
                         },
-                    copyable = false,
+                    enableCopyButton = false,
                 )
 
                 state.credentialId?.let {
                     DetailCard(
                         label = stringResource(R.string.label_credential_id),
                         value = it,
-                        isMonospace = true,
+                        useMonospace = true,
                     )
                 }
 
@@ -104,7 +104,7 @@ fun SettingsScreen(
                     DetailCard(
                         label = stringResource(R.string.label_registration_response),
                         value = it,
-                        isMonospace = true,
+                        useMonospace = true,
                     )
                 }
             }

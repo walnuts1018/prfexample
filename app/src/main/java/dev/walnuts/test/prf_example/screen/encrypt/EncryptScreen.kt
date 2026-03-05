@@ -123,13 +123,13 @@ fun EncryptScreen(
                 DetailCard(
                     label = stringResource(R.string.label_iv_hex),
                     value = uiState.ivHex ?: "",
-                    isMonospace = true,
+                    useMonospace = true,
                 )
 
                 DetailCard(
                     label = stringResource(R.string.label_ciphertext_base64),
                     value = uiState.encryptedData ?: "",
-                    isMonospace = true,
+                    useMonospace = true,
                 )
             }
         }

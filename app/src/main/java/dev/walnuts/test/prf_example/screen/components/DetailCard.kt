@@ -3,7 +3,6 @@ package dev.walnuts.test.prf_example.screen.components
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
@@ -37,8 +36,8 @@ fun DetailCard(
     label: String,
     value: String,
     modifier: Modifier = Modifier,
-    isMonospace: Boolean = false,
-    copyable: Boolean = true,
+    useMonospace: Boolean = false,
+    enableCopyButton: Boolean = true,
 ) {
     val context = LocalContext.current
     var showCopied by remember { mutableStateOf(false) }
@@ -57,7 +56,7 @@ fun DetailCard(
             ),
         modifier = modifier.fillMaxWidth(),
         onClick =
-            if (copyable && value.isNotEmpty()) {
+            if (enableCopyButton && value.isNotEmpty()) {
                 {
                     copyToClipboard(context, label, value)
                     showCopied = true
@@ -82,11 +81,11 @@ fun DetailCard(
                 Text(
                     text = value,
                     style = MaterialTheme.typography.bodySmall,
-                    fontFamily = if (isMonospace) FontFamily.Monospace else FontFamily.Default,
+                    fontFamily = if (useMonospace) FontFamily.Monospace else FontFamily.Default,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
-            if (copyable) {
+            if (enableCopyButton) {
                 androidx.compose.animation.AnimatedVisibility(
                     visible = showCopied,
                     enter = fadeIn(),
