@@ -179,8 +179,6 @@ class ApiClient(
     }
 }
 
-private fun io.ktor.http.HttpStatusCode.isSuccess(): Boolean = value in 200..299
-
 data class RegistrationResult(
     val userId: String,
     val responseJson: String,
