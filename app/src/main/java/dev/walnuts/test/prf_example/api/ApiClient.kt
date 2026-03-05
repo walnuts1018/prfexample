@@ -1,5 +1,6 @@
 package dev.walnuts.test.prf_example.api
 
+import dev.walnuts.test.prf_example.BuildConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
@@ -38,7 +39,7 @@ class ApiClient(
                             Timber.tag("Ktor").d(message)
                         }
                     }
-                level = LogLevel.BODY
+                level = if (BuildConfig.DEBUG) LogLevel.BODY else LogLevel.INFO
             }
             defaultRequest {
                 url(baseUrl)
