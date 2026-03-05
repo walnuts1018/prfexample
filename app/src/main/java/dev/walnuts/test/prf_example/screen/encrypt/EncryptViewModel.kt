@@ -2,7 +2,6 @@ package dev.walnuts.test.prf_example.screen.encrypt
 
 import android.util.Base64
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.walnuts.test.prf_example.Crypto
 import dev.walnuts.test.prf_example.LastEncryptResult
@@ -20,15 +19,6 @@ import timber.log.Timber
 class EncryptViewModel(
     private val repository: PasskeyRepository,
 ) : ViewModel() {
-    companion object {
-        fun provideFactory(repository: PasskeyRepository): ViewModelProvider.Factory =
-            object : ViewModelProvider.Factory {
-                @Suppress("UNCHECKED_CAST")
-                override fun <T : ViewModel> create(modelClass: Class<T>): T =
-                    EncryptViewModel(repository) as T
-            }
-    }
-
     private val _uiState = MutableStateFlow(EncryptUiState())
     val uiState: StateFlow<EncryptUiState> = _uiState.asStateFlow()
 
