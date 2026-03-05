@@ -1,3 +1,61 @@
 <resources>
     <string name="app_name">PRF-Example</string>
+
+    <string name="nav_encrypt">暗号化</string>
+    <string name="nav_decrypt">復号</string>
+    <string name="nav_settings">設定</string>
+
+    <string name="cancel">キャンセル</string>
+
+    <string name="register_new_passkey">新規パスキーを登録</string>
+    <string name="login_with_existing_passkey">既存のパスキーでログイン</string>
+    <string name="user_id">User ID</string>
+    <string name="user_id_placeholder">User IDを入力</string>
+    <string name="login_with_passkey">パスキーでログイン</string>
+    <string name="back_to_register">新規登録に戻る</string>
+
+    <string name="error_register_success_no_prf">登録は成功しましたが、PRF出力を取得できませんでした。</string>
+    <string name="error_register_credential_failed">登録に失敗しました: %1$s - %2$s</string>
+    <string name="error_register_failed">登録に失敗しました: %1$s</string>
+    <string name="error_user_id_required">User IDを入力してください</string>
+    <string name="error_prf_not_supported">PRF出力を取得できませんでした。PRF Extensionがサポートされていない可能性があります。</string>
+    <string name="error_login_credential_failed">ログインに失敗しました: %1$s - %2$s</string>
+    <string name="error_login_failed">ログインに失敗しました: %1$s</string>
+
+    <string name="encrypt_input_label">暗号化するテキスト</string>
+    <string name="encrypt_button">暗号化</string>
+    <string name="encrypt_result_title">暗号化結果</string>
+    <string name="label_iv_hex">IV (Hex, 12 bytes)</string>
+    <string name="label_ciphertext_base64">暗号文 (Base64)</string>
+
+    <string name="error_empty_plaintext">テキストを入力してください</string>
+    <string name="error_prf_key_missing">PRF鍵が取得されていません。再ログインしてください。</string>
+    <string name="error_encryption_failed">暗号化に失敗しました: %1$s</string>
+
+    <string name="paste_encrypt_result">暗号化画面の結果を貼り付け</string>
+    <string name="label_iv_input">IV (Base64 or Hex)</string>
+    <string name="decrypt_button">復号</string>
+    <string name="decrypt_result_title">復号結果</string>
+    <string name="saved_data_title">サーバー保存済みデータ (%1$d件)</string>
+    <string name="refresh">更新</string>
+    <string name="saved_data_id">ID: %1$s</string>
+    <string name="saved_data_content">Data: %1$s</string>
+
+    <string name="error_refresh_failed">データ一覧の取得に失敗しました: %1$s</string>
+    <string name="error_empty_decrypt_input">暗号文とIVを入力してください</string>
+    <string name="error_decryption_failed">復号に失敗しました: %1$s</string>
+
+    <string name="passkey_info_title">パスキー情報</string>
+    <string name="label_prf_key">PRF Key (AES-256)</string>
+    <string name="label_prf_support">PRF Extension サポート</string>
+    <string name="prf_supported">対応</string>
+    <string name="prf_not_supported">非対応</string>
+    <string name="prf_unknown">不明</string>
+    <string name="label_credential_id">Credential ID</string>
+    <string name="label_registration_response">Registration Response (JSON)</string>
+    <string name="sign_out">サインアウト</string>
+    <string name="delete_passkey">パスキーを削除</string>
+    <string name="sign_out_confirm_message">サインアウトしますか？サインアウトしても、パスキーは削除されません。</string>
+    <string name="delete_confirm_message">パスキーを削除すると、暗号化されたデータを復号できなくなります。本当に削除しますか？</string>
+    <string name="delete">削除</string>
 </resources>

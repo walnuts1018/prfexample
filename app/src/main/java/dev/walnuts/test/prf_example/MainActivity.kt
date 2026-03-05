@@ -4,26 +4,36 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.ui.Modifier
+import androidx.credentials.CredentialManager
+import dev.walnuts.test.prf_example.api.ApiClient
+import dev.walnuts.test.prf_example.screen.decrypt.DecryptViewModel
+import dev.walnuts.test.prf_example.screen.encrypt.EncryptViewModel
+import dev.walnuts.test.prf_example.screen.register.RegisterViewModel
+import dev.walnuts.test.prf_example.screen.settings.SettingsViewModel
 import dev.walnuts.test.prf_example.ui.theme.PRFExampleTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val credentialManager = CredentialManager.create(this)
+        val apiClient = ApiClient(baseUrl = "https://prfexample.walnuts.dev")
+        val repository = PasskeyRepository(credentialManager, apiClient, applicationContext)
+        val registerViewModel = RegisterViewModel(repository)
+        val encryptViewModel = EncryptViewModel(repository)
+        val decryptViewModel = DecryptViewModel(repository)
+        val settingsViewModel = SettingsViewModel(repository)
+
         setContent {
             PRFExampleTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    App(
-                        viewModel = AppViewModel(),
-                        modifier = Modifier
-                            .padding(innerPadding)
-                            .fillMaxSize()
-                    )
-                }
+                App(
+                    repository = repository,
+                    registerViewModel = registerViewModel,
+                    encryptViewModel = encryptViewModel,
+                    decryptViewModel = decryptViewModel,
+                    settingsViewModel = settingsViewModel,
+                )
             }
         }
     }
