@@ -22,6 +22,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation3.runtime.NavKey
 import androidx.navigation3.runtime.entryProvider
@@ -64,23 +65,12 @@ sealed interface TopLevelRoute : NavKey {
 val topLevelRoutes = listOf(TopLevelRoute.Encrypt, TopLevelRoute.Decrypt, TopLevelRoute.Settings)
 
 @Composable
-internal fun App(
-    repository: PasskeyRepository,
-    registerViewModel: RegisterViewModel,
-    encryptViewModel: EncryptViewModel,
-    decryptViewModel: DecryptViewModel,
-    settingsViewModel: SettingsViewModel,
-    modifier: Modifier = Modifier,
-) {
-    val registrationState by repository.registrationState.collectAsStateWithLifecycle()
+internal fun App(modifier: Modifier = Modifier) {
+    val registerViewModel: RegisterViewModel = hiltViewModel()
+    val registrationState by registerViewModel.registrationState.collectAsStateWithLifecycle()
 
     if (registrationState.isRegistered) {
-        MainApp(
-            encryptViewModel = encryptViewModel,
-            decryptViewModel = decryptViewModel,
-            settingsViewModel = settingsViewModel,
-            modifier = modifier,
-        )
+        MainApp(modifier = modifier)
     } else {
         RegisterScreen(
             viewModel = registerViewModel,
@@ -91,12 +81,10 @@ internal fun App(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun MainApp(
-    encryptViewModel: EncryptViewModel,
-    decryptViewModel: DecryptViewModel,
-    settingsViewModel: SettingsViewModel,
-    modifier: Modifier = Modifier,
-) {
+private fun MainApp(modifier: Modifier = Modifier) {
+    val encryptViewModel: EncryptViewModel = hiltViewModel()
+    val decryptViewModel: DecryptViewModel = hiltViewModel()
+    val settingsViewModel: SettingsViewModel = hiltViewModel()
     val backStack = rememberNavBackStack(TopLevelRoute.Encrypt)
     val snackbarHostState = remember { SnackbarHostState() }
     val currentRoute = backStack.lastOrNull() as? TopLevelRoute
