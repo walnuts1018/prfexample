@@ -9,6 +9,7 @@ import dev.walnuts.test.prf_example.LastEncryptResult
 import dev.walnuts.test.prf_example.PasskeyRepository
 import dev.walnuts.test.prf_example.R
 import dev.walnuts.test.prf_example.UiMessage
+import dev.walnuts.test.prf_example.toHexString
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -87,19 +88,21 @@ class DecryptViewModel(
 
     fun copyEncryptResultToDecrypt() {
         val result = lastEncryptResult.value ?: return
+        val ivHex = Base64.decode(result.ivBase64, Base64.NO_WRAP).toHexString()
         _uiState.update {
             it.copy(
                 encryptedInput = result.ciphertextBase64,
-                ivInput = result.ivBase64,
+                ivInput = ivHex,
             )
         }
     }
 
     fun loadEncryptedRecord(record: EncryptedRecord) {
+        val ivHex = Base64.decode(record.ivBase64, Base64.NO_WRAP).toHexString()
         _uiState.update {
             it.copy(
                 encryptedInput = record.dataBase64,
-                ivInput = record.ivBase64,
+                ivInput = ivHex,
                 decryptedText = null,
                 errorMessage = null,
             )
@@ -162,14 +165,7 @@ class DecryptViewModel(
         }
     }
 
-    private fun decodeIvInput(input: String): ByteArray {
-        val hexRegex = Regex("^[0-9a-fA-F]+$")
-        return if (input.matches(hexRegex) && input.length == 24) {
-            input.hexToByteArray()
-        } else {
-            Base64.decode(input, Base64.NO_WRAP)
-        }
-    }
+    private fun decodeIvInput(input: String): ByteArray = input.hexToByteArray()
 
     private fun String.hexToByteArray(): ByteArray {
         val hex = this.replace(" ", "")

@@ -33,7 +33,7 @@
     <string name="error_encryption_failed">暗号化に失敗しました: %1$s</string>
 
     <string name="paste_encrypt_result">暗号化画面の結果を貼り付け</string>
-    <string name="label_iv_input">IV (Base64 or Hex)</string>
+    <string name="label_iv_input">IV (Hex)</string>
     <string name="decrypt_button">復号</string>
     <string name="decrypt_result_title">復号結果</string>
     <string name="saved_data_title">サーバー保存済みデータ (%1$d件)</string>
