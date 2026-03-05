@@ -17,10 +17,9 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.jsonObject
 import timber.log.Timber
 
 class ApiClient(
@@ -168,15 +167,10 @@ class ApiClient(
         }
     }
 
-    private fun parseEncryptedData(jsonStr: String): ServerEncryptedData {
-        val obj = Json.parseToJsonElement(jsonStr).jsonObject
-        return ServerEncryptedData.fromJson(obj)
-    }
+    private fun parseEncryptedData(jsonStr: String): ServerEncryptedData = json.decodeFromString(jsonStr)
 
-    private fun parseEncryptedDataMap(jsonStr: String): List<ServerEncryptedData> {
-        val obj = Json.parseToJsonElement(jsonStr).jsonObject
-        return obj.values.map { ServerEncryptedData.fromJson(it.jsonObject) }
-    }
+    private fun parseEncryptedDataMap(jsonStr: String): List<ServerEncryptedData> =
+        json.decodeFromString<Map<String, ServerEncryptedData>>(jsonStr).values.toList()
 }
 
 private fun io.ktor.http.HttpStatusCode.isSuccess(): Boolean = value in 200..299
@@ -192,24 +186,14 @@ private data class SaveDataRequest(
     val iv: String,
 )
 
+@Serializable
 data class ServerEncryptedData(
-    val id: String,
-    val userId: String,
-    val dataBase64: String,
-    val ivBase64: String,
-    val updatedAt: String,
-) {
-    companion object {
-        fun fromJson(obj: JsonObject): ServerEncryptedData =
-            ServerEncryptedData(
-                id = obj["ID"]?.toString()?.trim('"') ?: "",
-                userId = obj["UserID"]?.toString()?.trim('"') ?: "",
-                dataBase64 = obj["Data"]?.toString()?.trim('"') ?: "",
-                ivBase64 = obj["IV"]?.toString()?.trim('"') ?: "",
-                updatedAt = obj["UpdatedAt"]?.toString()?.trim('"') ?: "",
-            )
-    }
-}
+    @SerialName("ID") val id: String,
+    @SerialName("UserID") val userId: String,
+    @SerialName("Data") val dataBase64: String,
+    @SerialName("IV") val ivBase64: String,
+    @SerialName("UpdatedAt") val updatedAt: String,
+)
 
 class ApiException(
     message: String,
