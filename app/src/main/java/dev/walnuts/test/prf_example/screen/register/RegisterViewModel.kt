@@ -3,6 +3,7 @@ package dev.walnuts.test.prf_example.screen.register
 import androidx.credentials.exceptions.CreateCredentialException
 import androidx.credentials.exceptions.GetCredentialException
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.walnuts.test.prf_example.PasskeyRepository
 import dev.walnuts.test.prf_example.R
@@ -24,6 +25,15 @@ data class RegisterUiState(
 class RegisterViewModel(
     private val repository: PasskeyRepository,
 ) : ViewModel() {
+    companion object {
+        fun provideFactory(repository: PasskeyRepository): ViewModelProvider.Factory =
+            object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(modelClass: Class<T>): T =
+                    RegisterViewModel(repository) as T
+            }
+    }
+
     private val _uiState = MutableStateFlow(RegisterUiState())
     val uiState: StateFlow<RegisterUiState> = _uiState.asStateFlow()
 

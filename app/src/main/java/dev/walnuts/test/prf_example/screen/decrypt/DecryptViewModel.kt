@@ -2,6 +2,7 @@ package dev.walnuts.test.prf_example.screen.decrypt
 
 import android.util.Base64
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.walnuts.test.prf_example.Crypto
 import dev.walnuts.test.prf_example.EncryptedRecord
@@ -31,6 +32,15 @@ data class DecryptUiState(
 class DecryptViewModel(
     private val repository: PasskeyRepository,
 ) : ViewModel() {
+    companion object {
+        fun provideFactory(repository: PasskeyRepository): ViewModelProvider.Factory =
+            object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(modelClass: Class<T>): T =
+                    DecryptViewModel(repository) as T
+            }
+    }
+
     private val _uiState = MutableStateFlow(DecryptUiState())
     val uiState: StateFlow<DecryptUiState> = _uiState.asStateFlow()
 
