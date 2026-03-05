@@ -86,7 +86,7 @@ class ApiClient(
         Timber.d("createWebAuthnCredential response: $body")
         val jsonObj = Json.parseToJsonElement(body).jsonObject
         val userId =
-            jsonObj["user_id"]?.toString()?.trim('"')
+            jsonObj["user_id"]?.jsonPrimitive?.content
                 ?: throw ApiException("Missing user_id in response")
         return RegistrationResult(userId = userId, responseJson = body)
     }
