@@ -142,7 +142,7 @@ class PasskeyRepository(
         if (prfFromRegistration != null) {
             _prfOutput.value = prfFromRegistration
             Timber.d(
-                "PRF key obtained from registration response (${prfFromRegistration.size} bytes): ${prfFromRegistration.toHexString()}",
+                "PRF key obtained from registration response (${prfFromRegistration.size} bytes)",
             )
         } else {
             Timber.w("PRF output not found in registration response")
