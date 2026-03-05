@@ -16,6 +16,7 @@ import io.ktor.client.statement.HttpResponse
 import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
+import io.ktor.http.isSuccess
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
@@ -28,40 +29,37 @@ class ApiClient(
 ) {
     private val json = Json { ignoreUnknownKeys = true }
 
-    private val client =
-        HttpClient(OkHttp) {
-            install(ContentNegotiation) {
-                json(json)
-            }
-            install(Logging) {
-                logger =
-                    object : Logger {
-                        override fun log(message: String) {
-                            Timber.tag("Ktor").d(message)
-                        }
-                    }
-                level = if (BuildConfig.DEBUG) LogLevel.BODY else LogLevel.INFO
-            }
-            defaultRequest {
-                url(baseUrl)
-            }
-            engine {
-                config {
-                    connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                    readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
-                    writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+    private val client = HttpClient(OkHttp) {
+        install(ContentNegotiation) {
+            json(json)
+        }
+        install(Logging) {
+            logger = object : Logger {
+                override fun log(message: String) {
+                    Timber.tag("Ktor").d(message)
                 }
             }
+            level = if (BuildConfig.DEBUG) LogLevel.BODY else LogLevel.INFO
         }
+        defaultRequest {
+            url(baseUrl)
+        }
+        engine {
+            config {
+                connectTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                readTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+                writeTimeout(30, java.util.concurrent.TimeUnit.SECONDS)
+            }
+        }
+    }
 
     var sessionId: String? = null
         private set
 
     suspend fun getRegistrationCreation(): String {
-        val response =
-            client.get("/api/v1/webauthn/registration/creation") {
-                applySessionHeader()
-            }
+        val response = client.get("/api/v1/webauthn/registration/creation") {
+            applySessionHeader()
+        }
         updateSessionId(response)
         val body = response.bodyAsText()
         if (!response.status.isSuccess()) {
@@ -73,12 +71,11 @@ class ApiClient(
 
     suspend fun createWebAuthnCredential(responseJson: String): RegistrationResult {
         Timber.d("createWebAuthnCredential request JSON: $responseJson")
-        val response =
-            client.post("/api/v1/webauthn/registration/create") {
-                contentType(ContentType.Application.Json)
-                setBody(responseJson)
-                applySessionHeader()
-            }
+        val response = client.post("/api/v1/webauthn/registration/create") {
+            contentType(ContentType.Application.Json)
+            setBody(responseJson)
+            applySessionHeader()
+        }
         updateSessionId(response)
         val body = response.bodyAsText()
         if (!response.status.isSuccess()) {
@@ -86,18 +83,16 @@ class ApiClient(
         }
         Timber.d("createWebAuthnCredential response: $body")
         val jsonObj = Json.parseToJsonElement(body).jsonObject
-        val userId =
-            jsonObj["user_id"]?.toString()?.trim('"')
-                ?: throw ApiException("Missing user_id in response")
+        val userId = jsonObj["user_id"]?.toString()?.trim('"')
+            ?: throw ApiException("Missing user_id in response")
         return RegistrationResult(userId = userId, responseJson = body)
     }
 
     suspend fun getVerificationAssertion(userId: String): String {
-        val response =
-            client.get("/api/v1/webauthn/verification/assertion") {
-                url { parameters.append("user_id", userId) }
-                applySessionHeader()
-            }
+        val response = client.get("/api/v1/webauthn/verification/assertion") {
+            url { parameters.append("user_id", userId) }
+            applySessionHeader()
+        }
         updateSessionId(response)
         val body = response.bodyAsText()
         if (!response.status.isSuccess()) {
@@ -108,12 +103,11 @@ class ApiClient(
     }
 
     suspend fun verifyWebAuthnAssertion(responseJson: String): String {
-        val response =
-            client.post("/api/v1/webauthn/verification/verify") {
-                contentType(ContentType.Application.Json)
-                setBody(responseJson)
-                applySessionHeader()
-            }
+        val response = client.post("/api/v1/webauthn/verification/verify") {
+            contentType(ContentType.Application.Json)
+            setBody(responseJson)
+            applySessionHeader()
+        }
         updateSessionId(response)
         val body = response.bodyAsText()
         if (!response.status.isSuccess()) {
@@ -127,12 +121,11 @@ class ApiClient(
         dataBase64: String,
         ivBase64: String,
     ): ServerEncryptedData {
-        val response =
-            client.post("/api/v1/data") {
-                contentType(ContentType.Application.Json)
-                setBody(SaveDataRequest(data = dataBase64, iv = ivBase64))
-                applySessionHeader()
-            }
+        val response = client.post("/api/v1/data") {
+            contentType(ContentType.Application.Json)
+            setBody(SaveDataRequest(data = dataBase64, iv = ivBase64))
+            applySessionHeader()
+        }
         updateSessionId(response)
         val body = response.bodyAsText()
         if (!response.status.isSuccess()) {
@@ -143,10 +136,9 @@ class ApiClient(
     }
 
     suspend fun listEncryptedData(): List<ServerEncryptedData> {
-        val response =
-            client.get("/api/v1/data") {
-                applySessionHeader()
-            }
+        val response = client.get("/api/v1/data") {
+            applySessionHeader()
+        }
         updateSessionId(response)
         val body = response.bodyAsText()
         if (!response.status.isSuccess()) {
@@ -179,8 +171,6 @@ class ApiClient(
     }
 }
 
-private fun io.ktor.http.HttpStatusCode.isSuccess(): Boolean = value in 200..299
-
 data class RegistrationResult(
     val userId: String,
     val responseJson: String,
@@ -200,14 +190,13 @@ data class ServerEncryptedData(
     val updatedAt: String,
 ) {
     companion object {
-        fun fromJson(obj: JsonObject): ServerEncryptedData =
-            ServerEncryptedData(
-                id = obj["ID"]?.toString()?.trim('"') ?: "",
-                userId = obj["UserID"]?.toString()?.trim('"') ?: "",
-                dataBase64 = obj["Data"]?.toString()?.trim('"') ?: "",
-                ivBase64 = obj["IV"]?.toString()?.trim('"') ?: "",
-                updatedAt = obj["UpdatedAt"]?.toString()?.trim('"') ?: "",
-            )
+        fun fromJson(obj: JsonObject): ServerEncryptedData = ServerEncryptedData(
+            id = obj["ID"]?.toString()?.trim('"') ?: "",
+            userId = obj["UserID"]?.toString()?.trim('"') ?: "",
+            dataBase64 = obj["Data"]?.toString()?.trim('"') ?: "",
+            ivBase64 = obj["IV"]?.toString()?.trim('"') ?: "",
+            updatedAt = obj["UpdatedAt"]?.toString()?.trim('"') ?: "",
+        )
     }
 }
 
