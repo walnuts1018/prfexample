@@ -15,7 +15,7 @@ ktor = "3.1.3"
 timber = "5.0.1"
 hilt = "2.59.2"
 ksp = "2.0.21-1.0.28"
-hiltNavigationCompose = "1.2.0"
+hiltNavigationCompose = "1.3.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
