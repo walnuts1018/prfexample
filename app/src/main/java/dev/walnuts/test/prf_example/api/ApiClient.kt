@@ -17,6 +17,7 @@ import io.ktor.client.statement.bodyAsText
 import io.ktor.http.ContentType
 import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.json
+import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.jsonObject
@@ -129,7 +130,7 @@ class ApiClient(
         val response =
             client.post("/api/v1/data") {
                 contentType(ContentType.Application.Json)
-                setBody("""{"data":"$dataBase64","iv":"$ivBase64"}""")
+                setBody(SaveDataRequest(data = dataBase64, iv = ivBase64))
                 applySessionHeader()
             }
         updateSessionId(response)
@@ -183,6 +184,12 @@ private fun io.ktor.http.HttpStatusCode.isSuccess(): Boolean = value in 200..299
 data class RegistrationResult(
     val userId: String,
     val responseJson: String,
+)
+
+@Serializable
+private data class SaveDataRequest(
+    val data: String,
+    val iv: String,
 )
 
 data class ServerEncryptedData(
