@@ -50,27 +50,23 @@ fun DetailCard(
     }
 
     Card(
-        colors =
-            CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
-            ),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+        ),
         modifier = modifier.fillMaxWidth(),
-        onClick =
+        enabled = enableCopyButton && value.isNotEmpty(),
+        onClick = {
             if (enableCopyButton && value.isNotEmpty()) {
-                {
-                    copyToClipboard(context, label, value)
-                    showCopied = true
-                }
-            } else {
-                {}
-            },
+                copyToClipboard(context, label, value)
+                showCopied = true
+            }
+        },
     ) {
         Box {
             Column(
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
                 verticalArrangement = Arrangement.spacedBy(4.dp),
             ) {
                 Text(
@@ -90,10 +86,9 @@ fun DetailCard(
                     visible = showCopied,
                     enter = fadeIn(),
                     exit = fadeOut(),
-                    modifier =
-                        Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(8.dp),
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(8.dp),
                 ) {
                     Icon(
                         imageVector = Icons.Filled.Check,
