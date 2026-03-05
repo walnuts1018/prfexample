@@ -1,6 +1,7 @@
 package dev.walnuts.test.prf_example.screen.settings
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import dev.walnuts.test.prf_example.PasskeyRepository
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,6 +13,15 @@ import kotlinx.coroutines.launch
 class SettingsViewModel(
     private val repository: PasskeyRepository,
 ) : ViewModel() {
+    companion object {
+        fun provideFactory(repository: PasskeyRepository): ViewModelProvider.Factory =
+            object : ViewModelProvider.Factory {
+                @Suppress("UNCHECKED_CAST")
+                override fun <T : ViewModel> create(modelClass: Class<T>): T =
+                    SettingsViewModel(repository) as T
+            }
+    }
+
     private val _uiState = MutableStateFlow(SettingsUiState())
     val uiState: StateFlow<SettingsUiState> = _uiState.asStateFlow()
 
