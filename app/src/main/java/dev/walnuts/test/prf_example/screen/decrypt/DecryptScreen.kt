@@ -36,7 +36,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -55,7 +54,6 @@ fun DecryptScreen(
     val uiState by viewModel.uiState.collectAsState()
     val savedRecords by viewModel.savedRecords.collectAsState()
     val lastEncryptResult by viewModel.lastEncryptResult.collectAsState()
-    LocalContext.current
     val resources = LocalResources.current
 
     LaunchedEffect(uiState.errorMessage) {

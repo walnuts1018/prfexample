@@ -31,7 +31,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.walnuts.test.prf_example.R
 import dev.walnuts.test.prf_example.screen.components.DetailCard
-import dev.walnuts.test.prf_example.toHexString
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -90,6 +89,7 @@ fun SettingsScreen(
                             false -> stringResource(R.string.prf_not_supported)
                             null -> stringResource(R.string.prf_unknown)
                         },
+                    copyable = false,
                 )
 
                 state.credentialId?.let {
