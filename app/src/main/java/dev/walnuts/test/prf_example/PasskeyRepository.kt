@@ -161,7 +161,7 @@ class PasskeyRepository(
         val prfBytes = performAuthentication(activityContext)
         if (prfBytes != null) {
             _prfOutput.value = prfBytes
-            Timber.d("PRF key obtained via login (${prfBytes.size} bytes): ${prfBytes.toHexString()}")
+            Timber.d("PRF key obtained via login (${prfBytes.size} bytes)")
 
             val info =
                 PasskeyInfo(
