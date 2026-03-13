@@ -428,8 +428,8 @@ github.com/kunwardeep/paralleltest v1.0.15 h1:ZMk4Qt306tHIgKISHWFJAO1IDQJLc6uDyJ
 github.com/kunwardeep/paralleltest v1.0.15/go.mod h1:di4moFqtfz3ToSKxhNjhOZL+696QtJGCFe132CbBLGk=
 github.com/kyokomi/emoji/v2 v2.2.13 h1:GhTfQa67venUUvmleTNFnb+bi7S3aocF7ZCXU9fSO7U=
 github.com/kyokomi/emoji/v2 v2.2.13/go.mod h1:JUcn42DTdsXJo1SWanHh4HKDEyPaR5CqkmoirZZP9qE=
-github.com/labstack/echo-opentelemetry v0.0.1 h1:lsB8F41SY0/SIJC4JFwjh1+8a8IXebYCqwep/dfxw8g=
-github.com/labstack/echo-opentelemetry v0.0.1/go.mod h1:kBwoqFuXPxpM9fxbs++asMsI42uOufQjuYJut3qqg6w=
+github.com/labstack/echo-opentelemetry v0.0.2 h1:zNzIDYf2uXSYgpBXcuwRELrnOOFSRvMaC41DTF80ke8=
+github.com/labstack/echo-opentelemetry v0.0.2/go.mod h1:kBwoqFuXPxpM9fxbs++asMsI42uOufQjuYJut3qqg6w=
 github.com/labstack/echo/v5 v5.0.4 h1:ll3I/O8BifjMztj9dD1vx/peZQv8cR2CTUdQK6QxGGc=
 github.com/labstack/echo/v5 v5.0.4/go.mod h1:SyvlSdObGjRXeQfCCXW/sybkZdOOQZBmpKF0bvALaeo=
 github.com/lasiar/canonicalheader v1.1.2 h1:vZ5uqwvDbyJCnMhmFYimgMZnJMjwljN5VGY0VKbMXb4=
