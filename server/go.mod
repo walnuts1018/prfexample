@@ -22,7 +22,7 @@ require (
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo-opentelemetry v0.0.1
-	github.com/labstack/echo/v5 v5.0.4
+	github.com/labstack/echo/v5 v5.1.0
 	github.com/phsym/console-slog v0.3.1
 	github.com/scylladb/gocqlx/v3 v3.0.4
 	github.com/veqryn/slog-context v0.9.0
