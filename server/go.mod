@@ -18,7 +18,7 @@ require (
 	github.com/cockroachdb/errors v1.12.0
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-webauthn/webauthn v0.16.0
-	github.com/gocql/gocql v1.7.0
+	github.com/gocql/gocql/v2 v2.1.1
 	github.com/google/uuid v1.6.0
 	github.com/joho/godotenv v1.5.1
 	github.com/labstack/echo-opentelemetry v0.0.1
