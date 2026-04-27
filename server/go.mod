@@ -15,7 +15,7 @@ replace github.com/gocql/gocql => github.com/scylladb/gocql v1.17.1
 require (
 	github.com/Code-Hex/synchro v0.5.4
 	github.com/caarlos0/env/v11 v11.4.0
-	github.com/cockroachdb/errors v1.12.0
+	github.com/cockroachdb/errors v1.13.0
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-webauthn/webauthn v0.16.0
 	github.com/gocql/gocql v1.7.0
@@ -108,7 +108,7 @@ require (
 	github.com/fsnotify/fsnotify v1.9.0 // indirect
 	github.com/fxamacker/cbor/v2 v2.9.0 // indirect
 	github.com/fzipp/gocyclo v0.6.0 // indirect
-	github.com/getsentry/sentry-go v0.27.0 // indirect
+	github.com/getsentry/sentry-go v0.46.0 // indirect
 	github.com/ghostiam/protogetter v0.3.20 // indirect
 	github.com/go-critic/go-critic v0.14.3 // indirect
 	github.com/go-logr/logr v1.4.3 // indirect
