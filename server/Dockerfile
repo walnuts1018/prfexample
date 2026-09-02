@@ -1,4 +1,4 @@
-# syntax=docker/dockerfile:1.22
+# syntax=docker/dockerfile:1.27
 FROM golang:1.26.6-trixie AS builder
 
 ENV ROOT=/build
