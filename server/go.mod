@@ -14,7 +14,7 @@ replace github.com/gocql/gocql => github.com/scylladb/gocql v1.17.1
 
 require (
 	github.com/Code-Hex/synchro v0.5.4
-	github.com/caarlos0/env/v11 v11.4.0
+	github.com/caarlos0/env/v11 v11.4.1
 	github.com/cockroachdb/errors v1.12.0
 	github.com/go-playground/validator v9.31.0+incompatible
 	github.com/go-webauthn/webauthn v0.16.0
