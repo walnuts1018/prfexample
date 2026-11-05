@@ -23,7 +23,7 @@ RUN --mount=type=cache,target=/go/pkg/mod/ \
     fi' && \
     chmod +x ./app
 
-FROM debian:13.3-slim
+FROM debian:13.7-slim@sha256:a72b4433de1cf7d6bae0c4cee74d0547f58601a643b3375f070c51600d63b6b2
 WORKDIR /app
 
 RUN rm -f /etc/apt/apt.conf.d/docker-clean; echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' > /etc/apt/apt.conf.d/keep-cache
